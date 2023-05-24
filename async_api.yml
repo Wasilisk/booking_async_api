@@ -1,0 +1,190 @@
+asyncapi: 2.6.0
+info:
+  title: Async API Specification
+  version: 1.0.0
+  description: Cinema Booking System.
+  contact:
+    name: Vasyl Petryna
+    email: vasyl.petryna@email.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+tags:
+  - name: movies
+    description: Movies related operations
+  - name: booking
+    description: Booking related operations
+  - name: user
+    description: User related operations
+channels:
+  moviesServiceAddedNew:
+    publish:
+      operationId: movieAddedPublish
+      message:
+        $ref: "#/components/messages/movieAddedPublish"
+  moviesServiceCancelation:
+    publish:
+      operationId: movieRemovedPublish
+      message:
+        $ref: "#/components/messages/movieRemovedPublish"
+  bookingService:
+    subscribe:
+      operationId: movieCancellationSubscribe
+      message:
+        $ref: "#/components/messages/movieCancellationPublish"
+  userService:
+    publish:
+      operationId: emailNotificationPublish
+      message:
+        $ref: "#/components/messages/emailNotificationPublish"
+    subscribe:
+      operationId: movieAddedSubscribe
+      message:
+        $ref: "#/components/messages/movieAddedSubscribe"
+  externalEmailSystemService:
+    subscribe:
+      operationId: emailNotificationSubscribe
+      message:
+        $ref: "#/components/messages/emailNotificationSubscribe"
+components:
+  messages:
+    movieAddedPublish:
+      messageId: movieAddedPublishMessage
+      payload:
+        type: object
+        properties:
+          "movie_id":
+            "type": "integer"
+            "description": "ID of the updated movie."
+          "title":
+            "type": "string"
+            "description": "Updated name of the movie."
+          "duration":
+            "type": "integer"
+            "description": "Updated duration of the movie."
+          "release_date":
+            "type": "string"
+            "format": "date"
+            "description": "Updated release date of the movie."
+          "image_url":
+            "type": "string"
+            "description": "Updated URL of the movie's image."
+    movieRemovedPublish:
+      messageId: movieRemovedPublishMessage
+      payload:
+        type: object
+        properties:
+          "movie_id":
+            "type": "integer"
+            "description": "ID of the updated movie."
+          "title":
+            "type": "string"
+            "description": "Updated name of the movie."
+          "duration":
+            "type": "integer"
+            "description": "Updated duration of the movie."
+          "release_date":
+            "type": "string"
+            "format": "date"
+            "description": "Updated release date of the movie."
+          "image_url":
+            "type": "string"
+            "description": "Updated URL of the movie's image."
+    emailNotificationPublish:
+      messageId: emailNotificationPublishMessage
+      payload:
+        type: object
+        properties:
+          movie:
+            type: object
+            properties:
+              "movie_id":
+                "type": "integer"
+                "description": "ID of the updated movie."
+              "title":
+                "type": "string"
+                "description": "Updated name of the movie."
+              "duration":
+                "type": "integer"
+                "description": "Updated duration of the movie."
+              "release_date":
+                "type": "string"
+                "format": "date"
+                "description": "Updated release date of the movie."
+              "image_url":
+                "type": "string"
+                "description": "Updated URL of the movie's image."
+          user_emails:
+            type: array
+            items:
+              type: string
+    emailNotificationSubscribe:
+      messageId: emailNotificationSubscribeMessage
+      payload:
+        type: object
+        properties:
+          movie:
+            type: object
+            properties:
+              "movie_id":
+                "type": "integer"
+                "description": "ID of the updated movie."
+              "title":
+                "type": "string"
+                "description": "Updated name of the movie."
+              "duration":
+                "type": "integer"
+                "description": "Updated duration of the movie."
+              "release_date":
+                "type": "string"
+                "format": "date"
+                "description": "Updated release date of the movie."
+              "image_url":
+                "type": "string"
+                "description": "Updated URL of the movie's image."
+          user_emails:
+            type: array
+            items:
+              type: string
+    movieAddedSubscribe:
+      messageId: movieAddedSubscribeMessage
+      payload:
+        type: object
+        properties:
+          "movie_id":
+            "type": "integer"
+            "description": "ID of the updated movie."
+          "title":
+            "type": "string"
+            "description": "Updated name of the movie."
+          "duration":
+            "type": "integer"
+            "description": "Updated duration of the movie."
+          "release_date":
+            "type": "string"
+            "format": "date"
+            "description": "Updated release date of the movie."
+          "image_url":
+            "type": "string"
+            "description": "Updated URL of the movie's image."
+    movieCancellationPublish:
+      messageId: movieCancellationPublishMessage
+      payload:
+        type: object
+        properties:
+          "movie_id":
+            "type": "integer"
+            "description": "ID of the updated movie."
+          "title":
+            "type": "string"
+            "description": "Updated name of the movie."
+          "duration":
+            "type": "integer"
+            "description": "Updated duration of the movie."
+          "release_date":
+            "type": "string"
+            "format": "date"
+            "description": "Updated release date of the movie."
+          "image_url":
+            "type": "string"
+            "description": "Updated URL of the movie's image."
